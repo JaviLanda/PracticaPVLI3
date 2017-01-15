@@ -1,20 +1,26 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var music;
+
 var GameOver = {
     create: function () {
         console.log("Game Over");
+        music = this.game.add.audio('musicdeath');
+        music.play();
+        this.game.stage.backgroundColor = '#FF1E1E';
+
         var button = this.game.add.button(400, 300, 
                                           'button', 
                                           this.actionOnClick, 
                                           this, 2, 1, 0);
         button.anchor.set(0.5);
-        var goText = this.game.add.text(400, 100, "GameOver");
+        var goText = this.game.add.text(400, 75, "You are DEAD");
         goText.addColor("000000");
         var text = this.game.add.text(0, 0, "Reset Game");
         text.anchor.set(0.5);
         goText.anchor.set(0.5);
         button.addChild(text);
         
-        var button2 = this.game.add.button(400, 150, 
+        var button2 = this.game.add.button(400, 200, 
                                           'button', 
                                           this.actionOnClick2, 
                                           this, 2, 1, 0);
@@ -24,12 +30,17 @@ var GameOver = {
         button2.addChild(texto);
     },
      actionOnClick2: function () {
+        music.stop();
         this.game.state.start('menu');
+        
+
     },
     
     
     actionOnClick: function () {
+        music.stop();
         this.game.state.start('preloader');
+
     }
 
 };
@@ -55,6 +66,12 @@ var BootScene = {
     this.game.load.image('enemy', 'images/enemy.png');
     this.game.load.image('dragon', 'images/dragon.png');
     this.game.load.image('trigger', 'images/trigger.png');
+    this.game.load.image('rata', 'images/rata.png');
+    this.game.load.audio('musiclvl1', ['sounds/quite a sad song music for Atari 8-bit.mp3', 
+                                      'sounds/quite_a_sad_song_music_for_Atari_8-bit.ogg']);
+    this.game.load.audio('salto', 'sounds/jump_11.wav');
+    this.game.load.audio('musicdeath', 'sounds/Determination.mp3');
+    this.game.load.audio('musicvictory', 'sounds/Victory Fanfare.mp3');
 
 
   },
@@ -134,7 +151,7 @@ window.onload = function () {
 
 function init (){
 
-  var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game');
+  var game = new Phaser.Game(800, 600 , Phaser.AUTO, 'game');
   game.state.add('preloader', PreloaderScene);
   game.state.add('boot', BootScene);
   game.state.add('menu', menu);
@@ -188,7 +205,9 @@ module.exports = MenuScene;
 var PlayerState = {'JUMP':0, 'RUN':1, 'FALLING':2, 'STOP':3}
 var Direction = {'LEFT':0, 'RIGHT':1, 'NONE':3}
 var enemyGroup;
-//var enemy;
+var music;
+var jumpSound;
+
 //Scena de juego.
 var PlayScene = {
     _rush: {}, //player
@@ -207,6 +226,11 @@ var PlayScene = {
 
     //Método constructor...
   create: function () {
+
+  	  jumpSound = this.game.add.audio('salto');
+  	  music = this.game.add.audio('musiclvl1');
+  	  music.play();
+
       //creacion del mapa
       this.map = this.game.add.tilemap('tilemap');
       this.map.addTilesetImage('simples_pimples','tiles');
@@ -236,7 +260,7 @@ var PlayScene = {
       this.enemy = this.game.add.sprite(310, 400, 'enemy', 0, enemyGroup);
       this.enemy2 = this.game.add.sprite(340, 770, 'enemy', 0, enemyGroup);
       this.enemy3 = this.game.add.sprite(300, 1160, 'enemy', 0, enemyGroup);
-      this.enemy4 = this.game.add.sprite(280, 1950, 'enemy', 0, enemyGroup);
+      this.enemy4 = this.game.add.sprite(280, 1950, 'rata', 0, enemyGroup);
       this.enemy5 = this.game.add.sprite(360, 1380, 'enemy', 0, enemyGroup);
 
     
@@ -244,7 +268,7 @@ var PlayScene = {
       //Limites y fisicas
       this.game.world.setBounds(0, 0, 2000, 2700);
       this.game.physics.startSystem(Phaser.Physics.ARCADE);
-	    this.game.stage.backgroundColor = '#000000';
+	  this.game.stage.backgroundColor = '#000000';
       this.game.physics.arcade.gravity.y = 300;
       this.game.physics.enable(this._rush, Phaser.Physics.ARCADE);
       this.game.physics.enable(this.enemy, Phaser.Physics.ARCADE);
@@ -298,6 +322,7 @@ var PlayScene = {
     },
 
   update: function() {
+
   	 var collisionWithTilemap = this.game.physics.arcade.collide(this._rush, this.groundLayer);
      var collisionWithEnemies = this.game.physics.arcade.collide(this.enemy, this.groundLayer);
      var collisionWithColtan = this.game.physics.arcade.collide(this.coltan, this.groundLayer);
@@ -312,22 +337,28 @@ var PlayScene = {
     if (cursors.left.isDown)
     {
         this._rush.body.velocity.x = -200;
+        this._rush.scale.setTo(-0.5, 0.5);
+        
 
     }
      if (cursors.right.isDown)
     {
         this._rush.body.velocity.x = 200;
+        this._rush.scale.setTo(0.5, 0.5);
+       
     }
     
     if (jumpButton.isDown && this._rush.body.onFloor())
     {
         this._rush.body.velocity.y = -450; 
+        jumpSound.play();
     }
 
     this.checkPlayerFell();
     this.enemyCollision();
     this.game.physics.arcade.overlap(this._rush, this.coltan, this.takeColtan, null, this);
     this.game.physics.arcade.overlap(this._rush, enemyGroup, this.enemyCollision, null, this);
+
     //this.game.physics.arcade.overlap(this.enemy, this.triggerR, this.changeDirection, null, this);
     //this.game.physics.arcade.overlap(this.enemy, this.triggerL, this.changeDirection, null, this);
 
@@ -336,6 +367,7 @@ var PlayScene = {
   onPlayerFell: function(){
         console.log("muerto");
         this.game.state.start('gameOver');
+
     },
 
   checkPlayerFell: function(){
@@ -359,6 +391,8 @@ var PlayScene = {
       this.enemy3.body.velocity.x *= -1;
       this.enemy4.body.velocity.x *= -1;
       this.enemy5.body.velocity.x *= -1;
+     
+
       //console.log('sa girao');
     },
 
@@ -399,6 +433,8 @@ var PlayScene = {
     this.cache.removeImage('tiles');
     this.game.world.setBounds(0,0,800,600);
     //console.log("saa rotooo	")
+    music.stop();
+   
     
     }
   };
@@ -443,6 +479,7 @@ menu_pause.prototype.destroy = function(){
   this.pText.destroy();
   this.txt.destroy();
   this.txt2.destroy();
+
 }
 
 
@@ -450,15 +487,22 @@ module.exports = PlayScene;
 
 
 },{}],5:[function(require,module,exports){
+var music;
+
 var VictoryScene = {
     create: function () {
+        music = this.game.add.audio('musicvictory');
+        music.play();
+        this.game.stage.backgroundColor = '#DCE40F';
+
+
         console.log("Victory");
         var button = this.game.add.button(400, 300,
             'button',this.actionOnClick, this, 2, 1, 0);
 
         button.anchor.set(0.5);
 
-        var goText = this.game.add.text(400, 100, "¡Enhorabuena!");
+        var goText = this.game.add.text(400, 75, "Congrats! You've found the sacred metal!");
         goText.addColor("000000");
 
         var text = this.game.add.text(0, 0, "Restart");
@@ -467,7 +511,7 @@ var VictoryScene = {
         button.addChild(text);
         
         
-        var button2 = this.game.add.button(400, 150,
+        var button2 = this.game.add.button(400, 200,
                                           'button',
                                           this.actionOnClick2, 
                                           this, 2, 1, 0);
@@ -479,12 +523,13 @@ var VictoryScene = {
     
     
     actionOnClick: function(){
+        music.stop();
         this.game.state.start('preloader');
     },
 
    
     actionOnClick2: function(){
-        
+        music.stop();
         this.game.state.start('menu');
     }
 };

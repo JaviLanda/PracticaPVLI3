@@ -5,7 +5,9 @@
 var PlayerState = {'JUMP':0, 'RUN':1, 'FALLING':2, 'STOP':3}
 var Direction = {'LEFT':0, 'RIGHT':1, 'NONE':3}
 var enemyGroup;
-//var enemy;
+var music;
+var jumpSound;
+
 //Scena de juego.
 var PlayScene = {
     _rush: {}, //player
@@ -24,6 +26,11 @@ var PlayScene = {
 
     //Método constructor...
   create: function () {
+
+  	  jumpSound = this.game.add.audio('salto');
+  	  music = this.game.add.audio('musiclvl1');
+  	  music.play();
+
       //creacion del mapa
       this.map = this.game.add.tilemap('tilemap');
       this.map.addTilesetImage('simples_pimples','tiles');
@@ -53,7 +60,7 @@ var PlayScene = {
       this.enemy = this.game.add.sprite(310, 400, 'enemy', 0, enemyGroup);
       this.enemy2 = this.game.add.sprite(340, 770, 'enemy', 0, enemyGroup);
       this.enemy3 = this.game.add.sprite(300, 1160, 'enemy', 0, enemyGroup);
-      this.enemy4 = this.game.add.sprite(280, 1950, 'enemy', 0, enemyGroup);
+      this.enemy4 = this.game.add.sprite(280, 1950, 'rata', 0, enemyGroup);
       this.enemy5 = this.game.add.sprite(360, 1380, 'enemy', 0, enemyGroup);
 
     
@@ -61,7 +68,7 @@ var PlayScene = {
       //Limites y fisicas
       this.game.world.setBounds(0, 0, 2000, 2700);
       this.game.physics.startSystem(Phaser.Physics.ARCADE);
-	    this.game.stage.backgroundColor = '#000000';
+	  this.game.stage.backgroundColor = '#000000';
       this.game.physics.arcade.gravity.y = 300;
       this.game.physics.enable(this._rush, Phaser.Physics.ARCADE);
       this.game.physics.enable(this.enemy, Phaser.Physics.ARCADE);
@@ -115,6 +122,7 @@ var PlayScene = {
     },
 
   update: function() {
+
   	 var collisionWithTilemap = this.game.physics.arcade.collide(this._rush, this.groundLayer);
      var collisionWithEnemies = this.game.physics.arcade.collide(this.enemy, this.groundLayer);
      var collisionWithColtan = this.game.physics.arcade.collide(this.coltan, this.groundLayer);
@@ -129,22 +137,28 @@ var PlayScene = {
     if (cursors.left.isDown)
     {
         this._rush.body.velocity.x = -200;
+        this._rush.scale.setTo(-0.5, 0.5);
+        
 
     }
      if (cursors.right.isDown)
     {
         this._rush.body.velocity.x = 200;
+        this._rush.scale.setTo(0.5, 0.5);
+       
     }
     
     if (jumpButton.isDown && this._rush.body.onFloor())
     {
         this._rush.body.velocity.y = -450; 
+        jumpSound.play();
     }
 
     this.checkPlayerFell();
     this.enemyCollision();
     this.game.physics.arcade.overlap(this._rush, this.coltan, this.takeColtan, null, this);
     this.game.physics.arcade.overlap(this._rush, enemyGroup, this.enemyCollision, null, this);
+
     //this.game.physics.arcade.overlap(this.enemy, this.triggerR, this.changeDirection, null, this);
     //this.game.physics.arcade.overlap(this.enemy, this.triggerL, this.changeDirection, null, this);
 
@@ -153,6 +167,7 @@ var PlayScene = {
   onPlayerFell: function(){
         console.log("muerto");
         this.game.state.start('gameOver');
+
     },
 
   checkPlayerFell: function(){
@@ -176,6 +191,8 @@ var PlayScene = {
       this.enemy3.body.velocity.x *= -1;
       this.enemy4.body.velocity.x *= -1;
       this.enemy5.body.velocity.x *= -1;
+     
+
       //console.log('sa girao');
     },
 
@@ -216,6 +233,8 @@ var PlayScene = {
     this.cache.removeImage('tiles');
     this.game.world.setBounds(0,0,800,600);
     //console.log("saa rotooo	")
+    music.stop();
+   
     
     }
   };
@@ -260,6 +279,7 @@ menu_pause.prototype.destroy = function(){
   this.pText.destroy();
   this.txt.destroy();
   this.txt2.destroy();
+
 }
 
 

@@ -17,6 +17,12 @@ var BootScene = {
     this.game.load.image('enemy', 'images/enemy.png');
     this.game.load.image('dragon', 'images/dragon.png');
     this.game.load.image('trigger', 'images/trigger.png');
+    this.game.load.image('rata', 'images/rata.png');
+    this.game.load.audio('musiclvl1', ['sounds/quite a sad song music for Atari 8-bit.mp3', 
+                                      'sounds/quite_a_sad_song_music_for_Atari_8-bit.ogg']);
+    this.game.load.audio('salto', 'sounds/jump_11.wav');
+    this.game.load.audio('musicdeath', 'sounds/Determination.mp3');
+    this.game.load.audio('musicvictory', 'sounds/Victory Fanfare.mp3');
 
 
   },
@@ -96,7 +102,7 @@ window.onload = function () {
 
 function init (){
 
-  var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game');
+  var game = new Phaser.Game(800, 600 , Phaser.AUTO, 'game');
   game.state.add('preloader', PreloaderScene);
   game.state.add('boot', BootScene);
   game.state.add('menu', menu);
