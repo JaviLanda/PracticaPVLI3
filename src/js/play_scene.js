@@ -128,7 +128,8 @@ var PlayScene = {
      var collisionWithColtan = this.game.physics.arcade.collide(this.coltan, this.groundLayer);
   	 var cursors = this.game.input.keyboard.createCursorKeys();
      var jumpButton = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-	   this.game.camera.follow(this._rush);
+	 
+	 this.game.camera.follow(this._rush);
      this.checkKey();
 
 
@@ -218,12 +219,14 @@ var PlayScene = {
   pause: function(){
     this.menu_pause = new menu_pause(this.game);
     this.game.paused = true;
+    music.pause();
   },
 
   unpause: function(event){
     if(this.game.paused){
       this.game.paused = false;
       this.menu_pause.destroy();
+
     }
   },
 
@@ -266,6 +269,8 @@ function menu_pause(game){
       if(this.button.getBounds().contains(event.x,event.y)){
           game.paused = false;
           this.destroy();
+          
+          music.resume();
       }
       else if(this.button2.getBounds().contains(event.x,event.y)){
           game.paused = false;

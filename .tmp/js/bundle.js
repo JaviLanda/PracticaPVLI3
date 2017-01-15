@@ -67,8 +67,9 @@ var BootScene = {
     this.game.load.image('dragon', 'images/dragon.png');
     this.game.load.image('trigger', 'images/trigger.png');
     this.game.load.image('rata', 'images/rata.png');
-    this.game.load.audio('musiclvl1', ['sounds/quite a sad song music for Atari 8-bit.mp3', 
-                                      'sounds/quite_a_sad_song_music_for_Atari_8-bit.ogg']);
+    //this.game.load.audio('musiclvl1', ['sounds/quite a sad song music for Atari 8-bit.mp3', 
+    //'sounds/quite_a_sad_song_music_for_Atari_8-bit.ogg']);
+    this.game.load.audio('musiclvl1', 'sounds/Castle.mp3')                                  
     this.game.load.audio('salto', 'sounds/jump_11.wav');
     this.game.load.audio('musicdeath', 'sounds/Determination.mp3');
     this.game.load.audio('musicvictory', 'sounds/Victory Fanfare.mp3');
@@ -328,7 +329,8 @@ var PlayScene = {
      var collisionWithColtan = this.game.physics.arcade.collide(this.coltan, this.groundLayer);
   	 var cursors = this.game.input.keyboard.createCursorKeys();
      var jumpButton = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-	   this.game.camera.follow(this._rush);
+	 
+	 this.game.camera.follow(this._rush);
      this.checkKey();
 
 
@@ -418,12 +420,14 @@ var PlayScene = {
   pause: function(){
     this.menu_pause = new menu_pause(this.game);
     this.game.paused = true;
+    music.pause();
   },
 
   unpause: function(event){
     if(this.game.paused){
       this.game.paused = false;
       this.menu_pause.destroy();
+
     }
   },
 
@@ -466,6 +470,8 @@ function menu_pause(game){
       if(this.button.getBounds().contains(event.x,event.y)){
           game.paused = false;
           this.destroy();
+          
+          music.resume();
       }
       else if(this.button2.getBounds().contains(event.x,event.y)){
           game.paused = false;
