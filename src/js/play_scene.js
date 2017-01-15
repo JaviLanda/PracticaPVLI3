@@ -33,8 +33,9 @@ var PlayScene = {
 
       //creacion del mapa
       this.map = this.game.add.tilemap('tilemap');
-      this.map.addTilesetImage('simples_pimples','tiles');
-      
+      this.map.addTilesetImage('terrain_atlas','tiles');
+      this.map.addTilesetImage('terrain-Derivation_5','tiles2');
+
       //creacion de las capas
       this.backgroundLayer = this.map.createLayer('fondo');
       this.groundLayer = this.map.createLayer('platforms');
@@ -43,9 +44,9 @@ var PlayScene = {
       this.map.setCollisionBetween(1, 5000, true, 'death');
       this.map.setCollisionBetween(1, 5000, true, 'platforms');
       
-      this.groundLayer.setScale(3,3);
-      this.backgroundLayer.setScale(3,3);
-      this.death.setScale(3,3);
+      this.groundLayer.setScale(1.2, 1.2);
+      this.backgroundLayer.setScale(1.2, 1.2);
+      this.death.setScale(1.2, 1.2);
 
       this.death.visible = true;
 
@@ -151,7 +152,7 @@ var PlayScene = {
     
     if (jumpButton.isDown && this._rush.body.onFloor())
     {
-        this._rush.body.velocity.y = -450; 
+        this._rush.body.velocity.y = -400; 
         jumpSound.play();
     }
 

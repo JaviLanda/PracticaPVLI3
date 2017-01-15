@@ -65,8 +65,9 @@ var BootScene = {
     this.game.load.image('coltan', 'images/coltan.png');
     this.game.load.image('enemy', 'images/enemy.png');
     this.game.load.image('dragon', 'images/dragon.png');
-    this.game.load.image('trigger', 'images/trigger.png');
+    //this.game.load.image('trigger', 'images/trigger.png');
     this.game.load.image('rata', 'images/rata.png');
+
     //this.game.load.audio('musiclvl1', ['sounds/quite a sad song music for Atari 8-bit.mp3', 
     //'sounds/quite_a_sad_song_music_for_Atari_8-bit.ogg']);
     this.game.load.audio('musiclvl1', 'sounds/Castle.mp3')                                  
@@ -95,8 +96,9 @@ var PreloaderScene = {
       
       
 
-      this.game.load.tilemap('tilemap', 'images/lvlphaser.json', null, Phaser.Tilemap.TILED_JSON);
-      this.game.load.image('tiles', 'images/simples_pimples.png');
+      this.game.load.tilemap('tilemap', 'images/lvl1remastered.json', null, Phaser.Tilemap.TILED_JSON);
+      this.game.load.image('tiles', 'images/terrain_atlas.png');
+      this.game.load.image('tiles2', 'images/terrain-Derivation_5.png');
       this.game.load.image('personaje', 'images/personaje.png');
 
 
@@ -234,8 +236,9 @@ var PlayScene = {
 
       //creacion del mapa
       this.map = this.game.add.tilemap('tilemap');
-      this.map.addTilesetImage('simples_pimples','tiles');
-      
+      this.map.addTilesetImage('terrain_atlas','tiles');
+      this.map.addTilesetImage('terrain-Derivation_5','tiles2');
+
       //creacion de las capas
       this.backgroundLayer = this.map.createLayer('fondo');
       this.groundLayer = this.map.createLayer('platforms');
@@ -244,9 +247,9 @@ var PlayScene = {
       this.map.setCollisionBetween(1, 5000, true, 'death');
       this.map.setCollisionBetween(1, 5000, true, 'platforms');
       
-      this.groundLayer.setScale(3,3);
-      this.backgroundLayer.setScale(3,3);
-      this.death.setScale(3,3);
+      this.groundLayer.setScale(1.2, 1.2);
+      this.backgroundLayer.setScale(1.2, 1.2);
+      this.death.setScale(1.2, 1.2);
 
       this.death.visible = true;
 
@@ -352,7 +355,7 @@ var PlayScene = {
     
     if (jumpButton.isDown && this._rush.body.onFloor())
     {
-        this._rush.body.velocity.y = -450; 
+        this._rush.body.velocity.y = -400; 
         jumpSound.play();
     }
 

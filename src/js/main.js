@@ -16,8 +16,9 @@ var BootScene = {
     this.game.load.image('coltan', 'images/coltan.png');
     this.game.load.image('enemy', 'images/enemy.png');
     this.game.load.image('dragon', 'images/dragon.png');
-    this.game.load.image('trigger', 'images/trigger.png');
+    //this.game.load.image('trigger', 'images/trigger.png');
     this.game.load.image('rata', 'images/rata.png');
+
     //this.game.load.audio('musiclvl1', ['sounds/quite a sad song music for Atari 8-bit.mp3', 
     //'sounds/quite_a_sad_song_music_for_Atari_8-bit.ogg']);
     this.game.load.audio('musiclvl1', 'sounds/Castle.mp3')                                  
@@ -46,8 +47,9 @@ var PreloaderScene = {
       
       
 
-      this.game.load.tilemap('tilemap', 'images/lvlphaser.json', null, Phaser.Tilemap.TILED_JSON);
-      this.game.load.image('tiles', 'images/simples_pimples.png');
+      this.game.load.tilemap('tilemap', 'images/lvl1remastered.json', null, Phaser.Tilemap.TILED_JSON);
+      this.game.load.image('tiles', 'images/terrain_atlas.png');
+      this.game.load.image('tiles2', 'images/terrain-Derivation_5.png');
       this.game.load.image('personaje', 'images/personaje.png');
 
 
