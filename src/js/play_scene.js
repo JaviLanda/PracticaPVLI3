@@ -21,6 +21,18 @@ var PlayScene = {
     enemy3:{},
     enemy4:{},
     enemy5:{},
+    enemy6:{},
+    enemy7:{},
+    enemy8:{},
+    enemy9:{},
+    enemy10:{},
+    enemy11:{},
+    enemy12:{},
+    enemy13:{},
+    enemy14:{},
+    enemy15:{},
+    enemy16:{},
+
     coltan:{},
 	 
 
@@ -51,25 +63,38 @@ var PlayScene = {
       this.death.visible = true;
 
       //Añadimos los sprites de las entidades
-      this._rush = this.game.add.sprite(250, 100, 'personaje');
-      this.coltan = this.game.add.sprite(200, 1950, 'coltan');
+      this._rush = this.game.add.sprite(700, 3700, 'personaje');
+      this.coltan = this.game.add.sprite(720, 7500, 'coltan');
       
       enemyGroup = this.game.add.group();
       enemyGroup = this.game.add.physicsGroup();
-      this._rush.scale.setTo(0.5, 0.5);
+      this._rush.scale.setTo(0.75, 0.75);
       this.coltan.scale.setTo(0.5, 0.5);
       this.enemy = this.game.add.sprite(310, 400, 'enemy', 0, enemyGroup);
       this.enemy2 = this.game.add.sprite(340, 770, 'enemy', 0, enemyGroup);
-      this.enemy3 = this.game.add.sprite(300, 1160, 'enemy', 0, enemyGroup);
-      this.enemy4 = this.game.add.sprite(280, 1950, 'rata', 0, enemyGroup);
-      this.enemy5 = this.game.add.sprite(360, 1380, 'enemy', 0, enemyGroup);
+      this.enemy3 = this.game.add.sprite(325, 1160, 'enemy', 0, enemyGroup);
+      this.enemy4 = this.game.add.sprite(170, 1710, 'rata', 0, enemyGroup);
+      this.enemy5 = this.game.add.sprite(350, 970, 'topo', 0, enemyGroup);
+      this.enemy6 = this.game.add.sprite(400, 2200, 'enemy', 0, enemyGroup);
+      this.enemy7 = this.game.add.sprite(225, 2785, 'rata', 0, enemyGroup);
+      this.enemy8 = this.game.add.sprite(300, 3000, 'dragon', 0, enemyGroup);
+      this.enemy9 = this.game.add.sprite(350, 3600, 'enemy', 0, enemyGroup);
+      this.enemy10 = this.game.add.sprite(260, 4200, 'enemy', 0, enemyGroup);
+      this.enemy11 = this.game.add.sprite(300, 4625, 'rata', 0, enemyGroup);
+      this.enemy12 = this.game.add.sprite(300, 4900, 'enemy', 0, enemyGroup);
+      this.enemy13 = this.game.add.sprite(350, 5615, 'topo', 0, enemyGroup);
+      this.enemy14 = this.game.add.sprite(425, 6000, 'dragon', 0, enemyGroup);
+      this.enemy15 = this.game.add.sprite(270, 6700, 'enemy', 0, enemyGroup);
+      this.enemy16 = this.game.add.sprite(300, 7200, 'dragon', 0, enemyGroup);
 
-    
+      this.enemy8.scale.setTo(0.5, 0.5);
+      this.enemy14.scale.setTo(0.5, 0.5);
+      this.enemy16.scale.setTo(0.5, 0.5);
 
       //Limites y fisicas
       this.game.world.setBounds(0, 0, 2000, 2700);
       this.game.physics.startSystem(Phaser.Physics.ARCADE);
-	  this.game.stage.backgroundColor = '#000000';
+	    this.game.stage.backgroundColor = '#000000';
       this.game.physics.arcade.gravity.y = 300;
       this.game.physics.enable(this._rush, Phaser.Physics.ARCADE);
       this.game.physics.enable(this.enemy, Phaser.Physics.ARCADE);
@@ -91,6 +116,40 @@ var PlayScene = {
       this.enemy5.body.immovable = true;
       this.enemy5.body.collideWorldBounds = true;
       this.enemy5.body.allowGravity = false;
+      this.enemy6.body.immovable = true;
+      this.enemy6.body.collideWorldBounds = true;
+      this.enemy6.body.allowGravity = false;
+      this.enemy7.body.immovable = true;
+      this.enemy7.body.collideWorldBounds = true;
+      this.enemy7.body.allowGravity = false;
+      this.enemy8.body.immovable = true;
+      this.enemy8.body.collideWorldBounds = true;
+      this.enemy8.body.allowGravity = false;
+      this.enemy9.body.immovable = true;
+      this.enemy9.body.collideWorldBounds = true;
+      this.enemy9.body.allowGravity = false;
+      this.enemy10.body.immovable = true;
+      this.enemy10.body.collideWorldBounds = true;
+      this.enemy10.body.allowGravity = false;
+      this.enemy11.body.immovable = true;
+      this.enemy11.body.collideWorldBounds = true;
+      this.enemy11.body.allowGravity = false;
+      this.enemy12.body.immovable = true;
+      this.enemy12.body.collideWorldBounds = true;
+      this.enemy12.body.allowGravity = false;
+      this.enemy13.body.immovable = true;
+      this.enemy13.body.collideWorldBounds = true;
+      this.enemy13.body.allowGravity = false;
+      this.enemy14.body.immovable = true;
+      this.enemy14.body.collideWorldBounds = true;
+      this.enemy14.body.allowGravity = false;
+      this.enemy15.body.immovable = true;
+      this.enemy15.body.collideWorldBounds = true;
+      this.enemy15.body.allowGravity = false;
+      this.enemy16.body.immovable = true;
+      this.enemy16.body.collideWorldBounds = true;
+      this.enemy16.body.allowGravity = false;
+
 
       this._rush.body.bounce.y = 0.1;
       this._rush.body.gravity.y = 550;
@@ -109,7 +168,18 @@ var PlayScene = {
       this.enemy2.body.velocity.x = 75;
       this.enemy3.body.velocity.x = 75;
       this.enemy4.body.velocity.x = 75;
-      this.enemy5.body.velocity.x = 75;
+      
+      this.enemy6.body.velocity.x = 75;
+      this.enemy7.body.velocity.x = 75;
+      this.enemy8.body.velocity.x = 75;
+      this.enemy9.body.velocity.x = 75;
+      this.enemy10.body.velocity.x = 75;
+      this.enemy11.body.velocity.x = 75;
+      this.enemy12.body.velocity.x = 75;
+      
+      this.enemy14.body.velocity.y = 75;
+      this.enemy15.body.velocity.x = 75;
+      this.enemy16.body.velocity.x = 75;
 
       //Pause------------------
       var Esc = this.game.input.keyboard.addKey(Phaser.Keyboard.ESC);
@@ -139,20 +209,20 @@ var PlayScene = {
     if (cursors.left.isDown)
     {
         this._rush.body.velocity.x = -200;
-        this._rush.scale.setTo(-0.5, 0.5);
+       // this._rush.scale.setTo(-0.75, 0.75);
         
 
     }
      if (cursors.right.isDown)
     {
         this._rush.body.velocity.x = 200;
-        this._rush.scale.setTo(0.5, 0.5);
+        //this._rush.scale.setTo(0.75, 0.75);
        
     }
     
     if (jumpButton.isDown && this._rush.body.onFloor())
     {
-        this._rush.body.velocity.y = -400; 
+        this._rush.body.velocity.y = -420; 
         jumpSound.play();
     }
 
@@ -179,7 +249,7 @@ var PlayScene = {
     },
 
     render: function() {
-      //this.game.debug.bodyInfo(this._rush, 16, 24);
+      this.game.debug.bodyInfo(this._rush, 16, 24);
     },
 
     enemyMovement: function(){
@@ -192,9 +262,19 @@ var PlayScene = {
       this.enemy2.body.velocity.x *= -1;
       this.enemy3.body.velocity.x *= -1;
       this.enemy4.body.velocity.x *= -1;
-      this.enemy5.body.velocity.x *= -1;
      
-
+      this.enemy6.body.velocity.x *= -1;
+      this.enemy7.body.velocity.x *= -1;
+      this.enemy8.body.velocity.x *= -1;
+      this.enemy9.body.velocity.x *= -1;
+      this.enemy10.body.velocity.x *= -1;
+      this.enemy11.body.velocity.x *= -1;
+      this.enemy12.body.velocity.x *= -1;
+     
+      this.enemy14.body.velocity.y *= -1;
+      this.enemy15.body.velocity.x *= -1;
+      this.enemy16.body.velocity.x *= -1;
+      this.enemy16.body.velocity.y *= -1.5;
       //console.log('sa girao');
     },
 

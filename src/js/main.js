@@ -18,9 +18,7 @@ var BootScene = {
     this.game.load.image('dragon', 'images/dragon.png');
     //this.game.load.image('trigger', 'images/trigger.png');
     this.game.load.image('rata', 'images/rata.png');
-
-    //this.game.load.audio('musiclvl1', ['sounds/quite a sad song music for Atari 8-bit.mp3', 
-    //'sounds/quite_a_sad_song_music_for_Atari_8-bit.ogg']);
+    this.game.load.image('topo', 'images/topo.png');
     this.game.load.audio('musiclvl1', 'sounds/Castle.mp3')                                  
     this.game.load.audio('salto', 'sounds/jump_11.wav');
     this.game.load.audio('musicdeath', 'sounds/Determination.mp3');
