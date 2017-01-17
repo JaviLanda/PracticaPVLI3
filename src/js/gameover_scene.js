@@ -4,6 +4,7 @@ var GameOver = {
     create: function () {
         console.log("Game Over");
         music = this.game.add.audio('musicdeath');
+         music.loopFull();
         music.play();
         this.game.stage.backgroundColor = '#FF1E1E';
 

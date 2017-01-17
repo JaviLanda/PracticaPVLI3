@@ -3,6 +3,7 @@ var music;
 var VictoryScene = {
     create: function () {
         music = this.game.add.audio('musicvictory');
+        music.loopFull();
         music.play();
         this.game.stage.backgroundColor = '#DCE40F';
 

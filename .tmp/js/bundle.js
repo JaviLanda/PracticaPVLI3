@@ -5,6 +5,7 @@ var GameOver = {
     create: function () {
         console.log("Game Over");
         music = this.game.add.audio('musicdeath');
+         music.loopFull();
         music.play();
         this.game.stage.backgroundColor = '#FF1E1E';
 
@@ -55,6 +56,7 @@ var gameOver = require('./gameover_scene');
 var menu = require('./menu_scene');
 var victory = require('./victory_scene');
 
+var music;
 
 var BootScene = {
   preload: function () {
@@ -65,6 +67,9 @@ var BootScene = {
     this.game.load.image('coltan', 'images/coltan.png');
     this.game.load.image('enemy', 'images/enemy.png');
     this.game.load.image('dragon', 'images/dragon.png');
+    this.game.load.spritesheet('bat', 'images/enemigos.png', 28 ,42.5);
+    this.game.load.spritesheet('dragones', 'images/dragonbetter.png', 225,126);
+
     //this.game.load.image('trigger', 'images/trigger.png');
     this.game.load.image('rata', 'images/rata.png');
     this.game.load.image('topo', 'images/topo.png');
@@ -72,13 +77,17 @@ var BootScene = {
     this.game.load.audio('salto', 'sounds/jump_11.wav');
     this.game.load.audio('musicdeath', 'sounds/Determination.mp3');
     this.game.load.audio('musicvictory', 'sounds/Victory Fanfare.mp3');
+    this.game.load.audio('musicmenu', 'sounds/Barier.mp3');
+
 
 
   },
 
   create: function () {
     //this.game.state.start('preloader');
-      this.game.state.start('menu');
+     this.game.state.start('menu');
+
+
   }
 };
 
@@ -97,7 +106,9 @@ var PreloaderScene = {
       this.game.load.tilemap('tilemap', 'images/lvl1remastered.json', null, Phaser.Tilemap.TILED_JSON);
       this.game.load.image('tiles', 'images/terrain_atlas.png');
       this.game.load.image('tiles2', 'images/terrain-Derivation_5.png');
-      this.game.load.image('personaje', 'images/personaje.png');
+      //this.game.load.image('personaje', 'images/personaje.png');
+      this.game.load.spritesheet('personaje', 'images/orwellv2.png', 46,54);
+
 
 
       
@@ -166,9 +177,12 @@ function init (){
 };
 
 },{"./gameover_scene":1,"./menu_scene":3,"./play_scene":4,"./victory_scene":5}],3:[function(require,module,exports){
+var music;
 var MenuScene = {
+
     create: function () {
-        
+        music = this.game.add.audio('musicmenu');
+        music.play();
         var fondo = this.game.add.sprite(this.game.world.centerX, 
                                         this.game.world.centerY, 
                                         'fondo');
@@ -194,6 +208,7 @@ var MenuScene = {
     
     actionOnClick: function(){
         this.game.state.start('preloader');
+        music.stop();
     } 
 };
 
@@ -208,6 +223,9 @@ var Direction = {'LEFT':0, 'RIGHT':1, 'NONE':3}
 var enemyGroup;
 var music;
 var jumpSound;
+var controls;
+var x = 1;
+var d = 0.5;
 
 //Scena de juego.
 var PlayScene = {
@@ -240,15 +258,17 @@ var PlayScene = {
     //Método constructor...
   create: function () {
 
+      //Música y efectos
   	  jumpSound = this.game.add.audio('salto');
   	  music = this.game.add.audio('musiclvl1');
-  	  music.play();
+  	  music.loopFull();
+      music.play();
 
       //creacion del mapa
       this.map = this.game.add.tilemap('tilemap');
       this.map.addTilesetImage('terrain_atlas','tiles');
       this.map.addTilesetImage('terrain-Derivation_5','tiles2');
-
+       
       //creacion de las capas
       this.backgroundLayer = this.map.createLayer('fondo');
       this.groundLayer = this.map.createLayer('platforms');
@@ -262,31 +282,57 @@ var PlayScene = {
       this.death.setScale(1.2, 1.2);
 
       this.death.visible = true;
+      //Controles
+      controls = {
+        right: this.input.keyboard.addKey(Phaser.Keyboard.D),
+        left: this.input.keyboard.addKey(Phaser.Keyboard.A),
+        up: this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
+      };
 
       //Añadimos los sprites de las entidades
-      this._rush = this.game.add.sprite(700, 3700, 'personaje');
+      this._rush = this.game.add.sprite(200, 200,'personaje');
+      this._rush.frame = 0;
+
+      this._rush.animations.add('right',[1,2,3], 10, true);
+      this._rush.animations.add('left', [4,5,6], 10, true);
+      this._rush.animations.add('idle', [0], 1, true);
+      this._rush.animations.add('jump',[8],11,false);
+      //this._rush = this.game.add.sprite(700, 3700, 'personaje');
       this.coltan = this.game.add.sprite(720, 7500, 'coltan');
       
-      enemyGroup = this.game.add.group();
-      enemyGroup = this.game.add.physicsGroup();
       this._rush.scale.setTo(0.75, 0.75);
       this.coltan.scale.setTo(0.5, 0.5);
-      this.enemy = this.game.add.sprite(310, 400, 'enemy', 0, enemyGroup);
-      this.enemy2 = this.game.add.sprite(340, 770, 'enemy', 0, enemyGroup);
-      this.enemy3 = this.game.add.sprite(325, 1160, 'enemy', 0, enemyGroup);
-      this.enemy4 = this.game.add.sprite(170, 1710, 'rata', 0, enemyGroup);
+
+      enemyGroup = this.game.add.group();
+      enemyGroup = this.game.add.physicsGroup();
+      this.enemy = this.game.add.sprite(360, 400, 'bat', 0, enemyGroup);
+      this.enemy2 = this.game.add.sprite(340, 770, 'bat', 0, enemyGroup);
+      this.enemy3 = this.game.add.sprite(350, 1160, 'bat', 0, enemyGroup);
+      this.enemy4 = this.game.add.sprite(200, 1710, 'rata', 0, enemyGroup);
       this.enemy5 = this.game.add.sprite(350, 970, 'topo', 0, enemyGroup);
-      this.enemy6 = this.game.add.sprite(400, 2200, 'enemy', 0, enemyGroup);
+      this.enemy6 = this.game.add.sprite(400, 2200, 'bat', 0, enemyGroup);
       this.enemy7 = this.game.add.sprite(225, 2785, 'rata', 0, enemyGroup);
-      this.enemy8 = this.game.add.sprite(300, 3000, 'dragon', 0, enemyGroup);
-      this.enemy9 = this.game.add.sprite(350, 3600, 'enemy', 0, enemyGroup);
-      this.enemy10 = this.game.add.sprite(260, 4200, 'enemy', 0, enemyGroup);
+      this.enemy8 = this.game.add.sprite(350, 3000, 'dragones', 0, enemyGroup);
+      this.enemy9 = this.game.add.sprite(350, 3600, 'bat', 0, enemyGroup);
+      this.enemy10 = this.game.add.sprite(260, 4200, 'bat', 0, enemyGroup);
       this.enemy11 = this.game.add.sprite(300, 4625, 'rata', 0, enemyGroup);
-      this.enemy12 = this.game.add.sprite(300, 4900, 'enemy', 0, enemyGroup);
+      this.enemy12 = this.game.add.sprite(300, 4900, 'bat', 0, enemyGroup);
       this.enemy13 = this.game.add.sprite(350, 5615, 'topo', 0, enemyGroup);
-      this.enemy14 = this.game.add.sprite(425, 6000, 'dragon', 0, enemyGroup);
-      this.enemy15 = this.game.add.sprite(270, 6700, 'enemy', 0, enemyGroup);
-      this.enemy16 = this.game.add.sprite(300, 7200, 'dragon', 0, enemyGroup);
+      this.enemy14 = this.game.add.sprite(425, 6000, 'dragones', 0, enemyGroup);
+      this.enemy15 = this.game.add.sprite(300, 6700, 'bat', 0, enemyGroup);
+      this.enemy16 = this.game.add.sprite(300, 7200, 'dragones', 0, enemyGroup);
+      this.enemy.animations.add('fly',[0,1,2], 5, true);
+      this.enemy2.animations.add('fly',[0,1,2], 5, true);
+      this.enemy3.animations.add('fly',[0,1,2], 5, true);
+      this.enemy6.animations.add('fly',[0,1,2], 5, true);
+      this.enemy9.animations.add('fly',[0,1,2], 5, true);
+      this.enemy10.animations.add('fly',[0,1,2], 5, true);
+      this.enemy12.animations.add('fly',[0,1,2], 5, true);
+      this.enemy15.animations.add('fly',[0,1,2], 5, true);
+      this.enemy8.animations.add('fly',[2,3], 5, true);
+      this.enemy14.animations.add('fly',[2,3], 5, true);
+      this.enemy16.animations.add('fly',[2,3], 5, true);
+     
 
       this.enemy8.scale.setTo(0.5, 0.5);
       this.enemy14.scale.setTo(0.5, 0.5);
@@ -352,7 +398,7 @@ var PlayScene = {
       this.enemy16.body.allowGravity = false;
 
 
-      this._rush.body.bounce.y = 0.1;
+      //this._rush.body.bounce.y = 0.1;
       this._rush.body.gravity.y = 550;
       this._rush.body.gravity.x = 0;
      
@@ -361,25 +407,29 @@ var PlayScene = {
       this.game.camera.follow(this._rush);
 
       //tiempo cambio direccion enemigos
-      this.game.time.events.loop(Phaser.Timer.SECOND*2, this.changeDirection, this);
+      this.game.time.events.loop(Phaser.Timer.SECOND*1.5, this.changeDirection, this);
+      this.game.time.events.loop(Phaser.Timer.SECOND*1.5, this.changeFrame, this);
+
 
       //ajustamos aqui el movimiento del enemigo para que pueda girar sin problemas
       //enemyGroup.setAll('x', 50, true, true, 1);
-      this.enemy.body.velocity.x = 75;
-      this.enemy2.body.velocity.x = 75;
-      this.enemy3.body.velocity.x = 75;
-      this.enemy4.body.velocity.x = 75;
+      this.enemy.body.velocity.x = -75;
+
+
+      this.enemy2.body.velocity.x = -75;
+      this.enemy3.body.velocity.x = -75;
+      this.enemy4.body.velocity.x = -75;
       
-      this.enemy6.body.velocity.x = 75;
-      this.enemy7.body.velocity.x = 75;
+      this.enemy6.body.velocity.x = -75;
+      this.enemy7.body.velocity.x = -75;
       this.enemy8.body.velocity.x = 75;
-      this.enemy9.body.velocity.x = 75;
-      this.enemy10.body.velocity.x = 75;
-      this.enemy11.body.velocity.x = 75;
-      this.enemy12.body.velocity.x = 75;
+      this.enemy9.body.velocity.x = -75;
+      this.enemy10.body.velocity.x = -75;
+      this.enemy11.body.velocity.x = -75;
+      this.enemy12.body.velocity.x = -75;
       
       this.enemy14.body.velocity.y = 75;
-      this.enemy15.body.velocity.x = 75;
+      this.enemy15.body.velocity.x = -75;
       this.enemy16.body.velocity.x = 75;
 
       //Pause------------------
@@ -395,6 +445,8 @@ var PlayScene = {
 
   update: function() {
 
+    this.playAnimation();
+
   	 var collisionWithTilemap = this.game.physics.arcade.collide(this._rush, this.groundLayer);
      var collisionWithEnemies = this.game.physics.arcade.collide(this.enemy, this.groundLayer);
      var collisionWithColtan = this.game.physics.arcade.collide(this.coltan, this.groundLayer);
@@ -406,27 +458,48 @@ var PlayScene = {
 
 
 	   this._rush.body.velocity.x = 0;
+    
+   if(!this._rush.body.onFloor()){
+        this._rush.animations.play('jump');
 
-    if (cursors.left.isDown)
+   }
+ 
+    if (controls.left.isDown)
     {
-        this._rush.body.velocity.x = -200;
+        this._rush.body.velocity.x -= this._speed;
+        this._rush.animations.play('left');
+       // this._rush.scale.setTo(-0.75,0.75);
+
        // this._rush.scale.setTo(-0.75, 0.75);
-        
-
+    
     }
-     if (cursors.right.isDown)
+    if (controls.right.isDown)
     {
-        this._rush.body.velocity.x = 200;
+    
+        this._rush.body.velocity.x += this._speed;
+        this._rush.animations.play('right');
         //this._rush.scale.setTo(0.75, 0.75);
        
+    //}else {
+     // this._rush.frame = 7;
+   
     }
     
-    if (jumpButton.isDown && this._rush.body.onFloor())
+    if (controls.up.isDown && (this._rush.body.onFloor() || 
+      this._rush.body.touching.down))
     {
         this._rush.body.velocity.y = -420; 
         jumpSound.play();
-    }
+        this._rush.animations.stop('right');
+        this._rush.animations.play('jump');
 
+    }
+    if(this._rush.body.velocity.x === 0.0 && this._rush.body.velocity.y === 0.0){
+     
+      this._rush.animations.stop('right');
+      this._rush.animations.play('idle');
+    }
+   
     this.checkPlayerFell();
     this.enemyCollision();
     this.game.physics.arcade.overlap(this._rush, this.coltan, this.takeColtan, null, this);
@@ -453,10 +526,6 @@ var PlayScene = {
       this.game.debug.bodyInfo(this._rush, 16, 24);
     },
 
-    enemyMovement: function(){
-     // this.enemy.body.velocity.x = 50; 
-      
-      },
 
     changeDirection: function(){
       this.enemy.body.velocity.x *= -1;
@@ -475,8 +544,43 @@ var PlayScene = {
       this.enemy14.body.velocity.y *= -1;
       this.enemy15.body.velocity.x *= -1;
       this.enemy16.body.velocity.x *= -1;
-      this.enemy16.body.velocity.y *= -1.5;
+      
       //console.log('sa girao');
+    },
+
+    changeFrame: function() {
+      
+      x *= -1;
+      d *= -1;
+      this.enemy.scale.setTo(x,1);
+      this.enemy2.scale.setTo(x,1);
+      this.enemy3.scale.setTo(x,1);
+      this.enemy4.scale.setTo(x,1);
+      this.enemy6.scale.setTo(x,1);
+      this.enemy7.scale.setTo(x,1);
+      this.enemy8.scale.setTo(d,0.5);
+      this.enemy9.scale.setTo(x,1);
+      this.enemy10.scale.setTo(x,1);
+      this.enemy11.scale.setTo(x,1);
+      this.enemy12.scale.setTo(x,1);
+      this.enemy15.scale.setTo(x,1);
+      this.enemy16.scale.setTo(d,0.5);
+
+    },
+
+    playAnimation: function() {
+      this.enemy.animations.play('fly');
+      this.enemy2.animations.play('fly');
+      this.enemy3.animations.play('fly');
+      this.enemy6.animations.play('fly');
+      this.enemy8.animations.play('fly');
+      this.enemy9.animations.play('fly');
+      this.enemy10.animations.play('fly');
+      this.enemy12.animations.play('fly');
+      this.enemy14.animations.play('fly');
+      this.enemy15.animations.play('fly');
+      this.enemy16.animations.play('fly');
+
     },
 
     enemyCollision: function() {
@@ -579,6 +683,7 @@ var music;
 var VictoryScene = {
     create: function () {
         music = this.game.add.audio('musicvictory');
+        music.loopFull();
         music.play();
         this.game.stage.backgroundColor = '#DCE40F';
 

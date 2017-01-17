@@ -1,6 +1,9 @@
+var music;
 var MenuScene = {
+
     create: function () {
-        
+        music = this.game.add.audio('musicmenu');
+        music.play();
         var fondo = this.game.add.sprite(this.game.world.centerX, 
                                         this.game.world.centerY, 
                                         'fondo');
@@ -26,6 +29,7 @@ var MenuScene = {
     
     actionOnClick: function(){
         this.game.state.start('preloader');
+        music.stop();
     } 
 };
 

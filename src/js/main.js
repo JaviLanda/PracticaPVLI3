@@ -6,6 +6,7 @@ var gameOver = require('./gameover_scene');
 var menu = require('./menu_scene');
 var victory = require('./victory_scene');
 
+var music;
 
 var BootScene = {
   preload: function () {
@@ -16,6 +17,9 @@ var BootScene = {
     this.game.load.image('coltan', 'images/coltan.png');
     this.game.load.image('enemy', 'images/enemy.png');
     this.game.load.image('dragon', 'images/dragon.png');
+    this.game.load.spritesheet('bat', 'images/enemigos.png', 28 ,42.5);
+    this.game.load.spritesheet('dragones', 'images/dragonbetter.png', 225,126);
+
     //this.game.load.image('trigger', 'images/trigger.png');
     this.game.load.image('rata', 'images/rata.png');
     this.game.load.image('topo', 'images/topo.png');
@@ -23,13 +27,17 @@ var BootScene = {
     this.game.load.audio('salto', 'sounds/jump_11.wav');
     this.game.load.audio('musicdeath', 'sounds/Determination.mp3');
     this.game.load.audio('musicvictory', 'sounds/Victory Fanfare.mp3');
+    this.game.load.audio('musicmenu', 'sounds/Barier.mp3');
+
 
 
   },
 
   create: function () {
     //this.game.state.start('preloader');
-      this.game.state.start('menu');
+     this.game.state.start('menu');
+
+
   }
 };
 
@@ -48,7 +56,9 @@ var PreloaderScene = {
       this.game.load.tilemap('tilemap', 'images/lvl1remastered.json', null, Phaser.Tilemap.TILED_JSON);
       this.game.load.image('tiles', 'images/terrain_atlas.png');
       this.game.load.image('tiles2', 'images/terrain-Derivation_5.png');
-      this.game.load.image('personaje', 'images/personaje.png');
+      //this.game.load.image('personaje', 'images/personaje.png');
+      this.game.load.spritesheet('personaje', 'images/orwellv2.png', 46,54);
+
 
 
       
