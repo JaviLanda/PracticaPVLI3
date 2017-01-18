@@ -67,8 +67,8 @@ var BootScene = {
     this.game.load.image('coltan', 'images/coltan.png');
     this.game.load.image('enemy', 'images/enemy.png');
     this.game.load.image('dragon', 'images/dragon.png');
-    this.game.load.spritesheet('bat', 'images/enemigos.png', 28 ,42.5);
-    this.game.load.spritesheet('dragones', 'images/dragonbetter.png', 225,126);
+    this.game.load.spritesheet('bat', 'images/bichovolador.png', 28 ,42.5);
+    this.game.load.spritesheet('dragones', 'images/Dragon (2).png', 198.5, 93);
 
     //this.game.load.image('trigger', 'images/trigger.png');
     this.game.load.image('rata', 'images/rata.png');
@@ -107,7 +107,7 @@ var PreloaderScene = {
       this.game.load.image('tiles', 'images/terrain_atlas.png');
       this.game.load.image('tiles2', 'images/terrain-Derivation_5.png');
       //this.game.load.image('personaje', 'images/personaje.png');
-      this.game.load.spritesheet('personaje', 'images/orwellv2.png', 46,54);
+      this.game.load.spritesheet('personaje', 'images/orwellv2.png', 48,48);
 
 
 
@@ -302,20 +302,22 @@ var PlayScene = {
       
       this._rush.scale.setTo(0.75, 0.75);
       this.coltan.scale.setTo(0.5, 0.5);
+      this._rush.anchor.setTo(0.5, 0.5);
+
 
       enemyGroup = this.game.add.group();
       enemyGroup = this.game.add.physicsGroup();
       this.enemy = this.game.add.sprite(360, 400, 'bat', 0, enemyGroup);
       this.enemy2 = this.game.add.sprite(340, 770, 'bat', 0, enemyGroup);
       this.enemy3 = this.game.add.sprite(350, 1160, 'bat', 0, enemyGroup);
-      this.enemy4 = this.game.add.sprite(200, 1710, 'rata', 0, enemyGroup);
+      this.enemy4 = this.game.add.sprite(200, 1725, 'rata', 0, enemyGroup);
       this.enemy5 = this.game.add.sprite(350, 970, 'topo', 0, enemyGroup);
       this.enemy6 = this.game.add.sprite(400, 2200, 'bat', 0, enemyGroup);
-      this.enemy7 = this.game.add.sprite(225, 2785, 'rata', 0, enemyGroup);
+      this.enemy7 = this.game.add.sprite(240, 2800, 'rata', 0, enemyGroup);
       this.enemy8 = this.game.add.sprite(350, 3000, 'dragones', 0, enemyGroup);
       this.enemy9 = this.game.add.sprite(350, 3600, 'bat', 0, enemyGroup);
       this.enemy10 = this.game.add.sprite(260, 4200, 'bat', 0, enemyGroup);
-      this.enemy11 = this.game.add.sprite(300, 4625, 'rata', 0, enemyGroup);
+      this.enemy11 = this.game.add.sprite(310, 4650, 'rata', 0, enemyGroup);
       this.enemy12 = this.game.add.sprite(300, 4900, 'bat', 0, enemyGroup);
       this.enemy13 = this.game.add.sprite(350, 5615, 'topo', 0, enemyGroup);
       this.enemy14 = this.game.add.sprite(425, 6000, 'dragones', 0, enemyGroup);
@@ -332,11 +334,25 @@ var PlayScene = {
       this.enemy8.animations.add('fly',[2,3], 5, true);
       this.enemy14.animations.add('fly',[2,3], 5, true);
       this.enemy16.animations.add('fly',[2,3], 5, true);
-     
+           
+      this.enemy.anchor.setTo(0.5, 0.5);
+      this.enemy2.anchor.setTo(0.5, 0.5);
+      this.enemy3.anchor.setTo(0.5, 0.5);
+      this.enemy4.anchor.setTo(0.5, 0.5);
+      this.enemy6.anchor.setTo(0.5, 0.5);
+      this.enemy7.anchor.setTo(0.5, 0.5);
+      this.enemy8.anchor.setTo(0.5, 0.5);
+      this.enemy9.anchor.setTo(0.5, 0.5);
+      this.enemy10.anchor.setTo(0.5, 0.5);
+      this.enemy11.anchor.setTo(0.5, 0.5);
+      this.enemy12.anchor.setTo(0.5, 0.5);
+      this.enemy14.anchor.setTo(0.5, 0.5);
+      this.enemy15.anchor.setTo(0.5, 0.5);
+      this.enemy16.anchor.setTo(0.5, 0.5);
 
-      this.enemy8.scale.setTo(0.5, 0.5);
-      this.enemy14.scale.setTo(0.5, 0.5);
-      this.enemy16.scale.setTo(0.5, 0.5);
+      this.enemy8.scale.setTo(0.65, 0.65);
+      this.enemy14.scale.setTo(0.65, 0.65);
+      this.enemy16.scale.setTo(0.65, 0.65);
 
       //Limites y fisicas
       this.game.world.setBounds(0, 0, 2000, 2700);
@@ -467,8 +483,8 @@ var PlayScene = {
     if (controls.left.isDown)
     {
         this._rush.body.velocity.x -= this._speed;
-        this._rush.animations.play('left');
-       // this._rush.scale.setTo(-0.75,0.75);
+        this._rush.animations.play('right');
+        this._rush.scale.setTo(-0.75,0.75);
 
        // this._rush.scale.setTo(-0.75, 0.75);
     
@@ -478,7 +494,7 @@ var PlayScene = {
     
         this._rush.body.velocity.x += this._speed;
         this._rush.animations.play('right');
-        //this._rush.scale.setTo(0.75, 0.75);
+        this._rush.scale.setTo(0.75, 0.75);
        
     //}else {
      // this._rush.frame = 7;
@@ -523,7 +539,7 @@ var PlayScene = {
     },
 
     render: function() {
-      this.game.debug.bodyInfo(this._rush, 16, 24);
+      //this.game.debug.bodyInfo(this._rush, 16, 24);
     },
 
 

@@ -17,8 +17,8 @@ var BootScene = {
     this.game.load.image('coltan', 'images/coltan.png');
     this.game.load.image('enemy', 'images/enemy.png');
     this.game.load.image('dragon', 'images/dragon.png');
-    this.game.load.spritesheet('bat', 'images/enemigos.png', 28 ,42.5);
-    this.game.load.spritesheet('dragones', 'images/dragonbetter.png', 225,126);
+    this.game.load.spritesheet('bat', 'images/bichovolador.png', 28 ,42.5);
+    this.game.load.spritesheet('dragones', 'images/Dragon (2).png', 198.5, 93);
 
     //this.game.load.image('trigger', 'images/trigger.png');
     this.game.load.image('rata', 'images/rata.png');
@@ -57,7 +57,7 @@ var PreloaderScene = {
       this.game.load.image('tiles', 'images/terrain_atlas.png');
       this.game.load.image('tiles2', 'images/terrain-Derivation_5.png');
       //this.game.load.image('personaje', 'images/personaje.png');
-      this.game.load.spritesheet('personaje', 'images/orwellv2.png', 46,54);
+      this.game.load.spritesheet('personaje', 'images/orwellv2.png', 48,48);
 
 
 
