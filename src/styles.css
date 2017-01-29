@@ -2,18 +2,36 @@ html {
   font-size: 10px;
   -webkit-font-smoothing: antialiased;
 }
+.s1{
+  margin-left: 5em;
+  margin-right: 5em;
+  background-color: #FFE;
+}
 
 body {
   padding: 0;
   margin: 0;
   font-family: Courier, 'Courier New', monospace;
   font-size: 1.6rem;
-  background-color: brown;
+  //background-color: grey;
+  background-image: url(images/coltan.png);
   color: #000;
 }
 
 a {
   color: #c39;
+}
+
+h1 {
+  font-size: 56px;
+  font-family: fantasy, 'Astloch', monospace;
+  text-align: center;
+  color: #ff0;
+}
+h2 {
+  font-size: 40px;
+  text-align: center;
+  background-color: #FF0;
 }
 
 main {
